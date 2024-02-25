@@ -1,6 +1,7 @@
 SHELL=cmd.exe
 FRONT_END_BINARY=frontApp.exe
 BROKER_BINARY=brokerApp
+AUTH_BINARY=authApp
 
 ## howTo use it
 ## in the terminal, type: "make up" or "make up_build"
@@ -13,7 +14,7 @@ up:
 	@echo Docker images started!
 
 ## up_build: stops docker-compose (if running), builds all projects and starts docker compose
-up_build: build_broker
+up_build: build_broker build_auth
 	@echo Stopping docker images (if running...)
 	docker-compose down
 	@echo Building (when required) and starting docker images...
@@ -29,7 +30,14 @@ down:
 ## build_broker: builds the broker binary as a linux executable
 build_broker:
 	@echo Building broker binary...
-	chdir ..\broker-service && set GOOS=linux&& set GOARCH=amd64&& set CGO_ENABLED=0 && go build -o ${BROKER_BINARY} ./cmd/api
+	cd ..\broker-service && go env -w GOOS=linux && go env -w GOARCH=amd64 && go env -w CGO_ENABLED=0 && go build -o ${BROKER_BINARY} ./cmd/api
+	@echo Done!
+
+
+## build_auth: builds the auth binary as a linux executable
+build_auth:
+	@echo Building broker binary...
+	chdir ..\authentication-service && set GOOS=linux&& set GOARCH=amd64&& set CGO_ENABLED=0 && go build -o ${AUTH_BINARY} ./cmd/api
 	@echo Done!
 
 ## build_front: builds the frone end binary

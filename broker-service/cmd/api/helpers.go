@@ -1,8 +1,9 @@
 package main
-package main
 
 import (
 	"encoding/json"
+	"errors"
+	"io"
 	"net/http"
 )
 
@@ -12,29 +13,29 @@ type jsonResponse struct {
 	Data any `json:"data,omitempty"`
 }
 
-func (App *config) readJSON(w http.ResponseWriter, r *http.Request, data any) error{
+func (app *Config) readJSON(w http.ResponseWriter, r *http.Request, data any) error{
 	maxBytes := 1048576; // 1Mb
 
 	r.Body = http.MaxBytesReader(w, r.Body, int64(maxBytes))
 
 	dec := json.NewDecoder(r.Body)
-	err := dec.Decode(Data)
+	err := dec.Decode(data)
 
 	if err != nil {
 		return err
 	} 
 
-	err := dec.Decode(&struct{}{})
+	err = dec.Decode(&struct{}{})
 	if err != io.EOF {
-		return err.New("Body must have a single JSON value")
+		return errors.New("Body must have a single JSON value")
 	}
 
 	return nil
 }
 
 
-func (App *config) writeJSON(w http.ResponseWriter, status int, data any, headers ...http.Header) error{
-	out, err := json.Marshel(data)
+func (app *Config) writeJSON(w http.ResponseWriter, status int, data any, headers ...http.Header) error{
+	out, err := json.Marshal(data)
 
 	if err != nil {
 		return err
@@ -49,7 +50,7 @@ func (App *config) writeJSON(w http.ResponseWriter, status int, data any, header
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
 
-	_, err := w.Write(out)
+	_, err = w.Write(out)
 
 	if err != nil {
 		return err
@@ -59,8 +60,8 @@ func (App *config) writeJSON(w http.ResponseWriter, status int, data any, header
 }
 
 
-func (App *config) errorJSON(w http.ResponseWriter, err error, status ...int) error{
-	statusCode := StatusBadRequest
+func (app *Config) errorJSON(w http.ResponseWriter, err error, status ...int) error{
+	statusCode := http.StatusBadRequest
 
 	if len(status) > 0 {
 		statusCode = status[0]
@@ -70,5 +71,5 @@ func (App *config) errorJSON(w http.ResponseWriter, err error, status ...int) er
 	payload.Error = true
 	payload.Message = err.Error()
 
-	return app.WriteJSON(w, statusCode, payload)
+	return app.writeJSON(w, statusCode, payload)
 }

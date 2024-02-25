@@ -3,6 +3,7 @@ package main
 import (
 	"authentication/data"
 	"database/sql"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -28,8 +29,8 @@ func main(){
 
 	// To Do connect to DB
 	conn := connectToDB()
-	if err != nil {
-		log.Panic("Cannot connect to Postgres")
+	if conn == nil {
+		log.Panic("Can't connect to Postgres!")
 	}
 	// set up config
 	app := Config{
@@ -39,7 +40,7 @@ func main(){
 	
 	srv := &http.Server{
 		Addr: fmt.Sprintf(":%s", webPort),
-		Handler: app.routes()
+		Handler: app.routes(),
 	}
 
 	err :=  srv.ListenAndServe()
@@ -48,7 +49,7 @@ func main(){
 	}
 }
 
-func openDB(dsn String) (*sql.DB, error) {
+func openDB(dsn string) (*sql.DB, error) {
 	db, err := sql.Open("pgx", dsn)
 	if err != nil {
 		return nil, err
@@ -63,7 +64,7 @@ func openDB(dsn String) (*sql.DB, error) {
 }
 
 func connectToDB() *sql.DB {
-	dsn =: os.Getenv("DSN")
+	dsn := os.Getenv("DSN")
 
 	for {
 		connection, err := openDB(dsn)
