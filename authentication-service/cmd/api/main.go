@@ -16,7 +16,7 @@ import (
 
 
 
-const webPort = 80
+const webPort = "80"
 var counts int64
 
 type Config struct {
