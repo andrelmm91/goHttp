@@ -27,7 +27,7 @@ func (app *Config) Broker(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func (app *Config) handleSubmission(w http.ResponseWriter, r *http.Request) {
+func (app *Config) HandleSubmission(w http.ResponseWriter, r *http.Request) {
 	var requestPayload RequestPayload
 
 	err := app.readJSON(w, r, &requestPayload)
@@ -89,7 +89,7 @@ func (app *Config) authenticate(w http.ResponseWriter, a AuthPayload) {
 
 	var payload jsonResponse
 	payload.Error = false
-	payload.Message = "authenticated"
+	payload.Message = jsonFromService.Message //"authenticated"
 	payload.Data = jsonFromService.Data
 
 	app.writeJSON(w, http.StatusAccepted, payload)
