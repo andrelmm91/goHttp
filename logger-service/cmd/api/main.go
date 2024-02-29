@@ -45,7 +45,7 @@ func main() {
 	} ()
 
 	app := Config{
-		Models: data.New(client),
+		models: data.New(client),
 	}
 
 	// start server
