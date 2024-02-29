@@ -30,7 +30,7 @@ type LogEntry struct {
 	Name string `bson:"name" json:"name"`
 	Data string `bson:"data" json:"data"`
 	CreatedAt time.Time `bson:"created_at" json:"created_at"`
-	UpdateAt time.Time `bson:"updated_at" json:"updated_at"`
+	UpdatedAt time.Time `bson:"updated_at" json:"updated_at"`
 }
 
 func (l *LogEntry) Insert(entry LogEntry) error {
@@ -40,7 +40,7 @@ func (l *LogEntry) Insert(entry LogEntry) error {
 		Name: entry.Name,
 		Data: entry.Data,
 		CreatedAt: time.Now(),
-		UpdateAt: time.Now(),
+		UpdatedAt: time.Now(),
 	})
 	if err != nil {
 		log.Println("Error inserting into logs:", err)
@@ -57,7 +57,7 @@ func (l *LogEntry) All() ([]*LogEntry, error) {
 	collection := client.Database("logs").Collection("logs")
 
 	opts := options.Find()
-	opts.SetSort(bson.D{{"created_at", -1}})
+	opts.SetSort(bson.D{{Key: "created_at", Value: -1}})
 
 	cursor, err := collection.Find(context.TODO(), bson.D{}, opts)
 	if err != nil {
@@ -89,7 +89,7 @@ func (l *LogEntry) GetOne(id string) (*LogEntry, error) {
 
 	collection := client.Database("logs").Collection("logs")
 
-	docID, err = primitive.ObjectIDFromHex(id)
+	docID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return nil, err
 	}
@@ -122,7 +122,7 @@ func (l *LogEntry) Update() (*mongo.UpdateResult, error) {
 
 	collection := client.Database("logs").Collection("logs")
 
-	docID, err = primitive.ObjectIDFromHex(l.id)
+	docID, err := primitive.ObjectIDFromHex(l.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -131,12 +131,12 @@ func (l *LogEntry) Update() (*mongo.UpdateResult, error) {
 		ctx,
 		bson.M{"_id": docID},
 		bson.D{
-			{"$set", bson.D{
-				{"name", l.Name},
-				{"data", l.Data}
-				{"updated_at", time.Now()},
-			}}
-		}
+			{Key: "$set", Value: bson.D{
+				{Key: "name", Value: l.Name},
+				{Key: "data", Value: l.Data},
+				{Key: "updated_at", Value: time.Now()},
+			}},
+		},
 	)
 
 	if err != nil {
