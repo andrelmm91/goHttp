@@ -22,7 +22,7 @@ const (
 var client *mongo.Client
 
 type Config struct {
-	models data.Models
+	Models data.Models
 }
 
 func main() {
@@ -45,7 +45,7 @@ func main() {
 	} ()
 
 	app := Config{
-		models: data.New(client),
+		Models: data.New(client),
 	}
 
 	// start server
