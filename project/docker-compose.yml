@@ -53,3 +53,14 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: password
     volumes:
       - ./db-data/mongo/:/data/db
+
+  logger-services:
+    build:
+      context: ./../logger-service
+      dockerfile: ./../logger-service/logger-service.dockerfile
+    restart: always
+    # ports: ## it will be not exposed
+    #   - "8080:80"
+    deploy:
+      mode: replicated
+      replicas: 1
