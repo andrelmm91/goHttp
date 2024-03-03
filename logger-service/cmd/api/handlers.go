@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"log-service/data"
 	"net/http"
 )
@@ -24,6 +25,7 @@ func (app *Config) WriteLog(w http.ResponseWriter, r *http.Request) {
 
 	err := app.Models.LogEntry.Insert(event)
 	if err != nil {
+		log.Panic(err)
 		app.errorJSON(w, err)
 		return
 	}
