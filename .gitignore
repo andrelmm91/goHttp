@@ -1,2 +1,7 @@
 node_modules
 project/db-data
+brokerApp
+frontApp.exe
+loggerApp
+authApp
+*.exe
