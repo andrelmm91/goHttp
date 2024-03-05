@@ -41,7 +41,7 @@ services:
       - ./db-data/postgres/:/var/lib/postgresql/data/
 
   mongo:
-    image: 'mongo:4.2.16-bionic'
+    image: "mongo:4.2.16-bionic"
     ports:
       - "27017:27017"
     environment:
@@ -62,7 +62,7 @@ services:
       mode: replicated
       replicas: 1
 
-  mailer-service:
+  mail-service:
     build:
       context: ./../mail-service
       dockerfile: ./../mail-service/mail-service.dockerfile
@@ -81,7 +81,7 @@ services:
       MAIL_ADDRESS: "andre@email.com"
 
   mailhog:
-    image: 'mailhog/mailhog:latest'
+    image: "mailhog/mailhog:latest"
     ports:
       - "1025:1025"
       - "8025:8025"
