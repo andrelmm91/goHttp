@@ -62,7 +62,7 @@ func (consumer *Consumer) Listen(topics []string) error {
 		ch.QueueBind(
 			q.Name,
 			s, 
-			"logs_topic",
+			"logs_topic", 
 			false, // no waitng
 			nil,
 		)
