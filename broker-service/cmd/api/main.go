@@ -28,7 +28,7 @@ func main() {
 
 
 	app := Config{
-		Rabbit: rabbitConn
+		Rabbit: rabbitConn,
 	}
 
 	log.Printf("Starting broker service on port %s \n", webPort)
@@ -40,7 +40,7 @@ func main() {
 	}
 
 	// start the server
-	err := srv.ListenAndServe()
+	err = srv.ListenAndServe()
 	if err != nil {
 		log.Panic(err)
 	}
