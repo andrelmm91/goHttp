@@ -1,3 +1,5 @@
+// to run the test, use "go test -v ."
+
 package main
 
 import (

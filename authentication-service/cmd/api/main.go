@@ -20,8 +20,7 @@ const webPort = "80"
 var counts int64
 
 type Config struct {
-	DB *sql.DB
-	Models data.Models
+	Repo data.Repository
 }
 
 func main(){
