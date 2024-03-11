@@ -31,10 +31,10 @@ func main(){
 	if conn == nil {
 		log.Panic("Can't connect to Postgres!")
 	}
+
 	// set up config
 	app := Config{
-		DB: conn,
-		Models: data.New(conn),
+		
 	}
 	
 	srv := &http.Server{
@@ -84,4 +84,10 @@ func connectToDB() *sql.DB {
 		time.Sleep(2 * time.Second)
 		continue
 	}
+}
+
+//
+func (app *Config) setupRepository(conn *sql.DB) {
+	db := data.NewPostgresRepository(conn)
+	app.Repo = db
 }
