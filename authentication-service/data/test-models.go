@@ -24,30 +24,30 @@ func (u *PostgresTestRepository) GetAll() ([]*User, error) {
 
 // GetByEmail returns one user by email
 func (u *PostgresTestRepository) GetByEmail(email string) (*User, error) {
-	users := User{
+	user := User{
 		ID: 1,
-		FirstName: Andre,
-		LastName: Luiz,
-		Email: a@a.com,
-		Password: 123,
+		FirstName: "Andre",
+		LastName: "Luiz",
+		Email: "a@a.com",
+		Password: "123",
 		Active: 1,
-		CreatedAt: time.Now()
-		UpdatedAt: time.Now()
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
 	}
 	return &user, nil
 }
 
 // GetOne returns one user by id
 func (u *PostgresTestRepository) GetOne(id int) (*User, error) {
-	users := User{
+	user := User{
 		ID: 1,
-		FirstName: Andre,
-		LastName: Luiz,
-		Email: a@a.com,
-		Password: 123,
+		FirstName: "Andre",
+		LastName: "Luiz",
+		Email: "a@a.com",
+		Password: "123",
 		Active: 1,
-		CreatedAt: time.Now()
-		UpdatedAt: time.Now()
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
 	}
 
 	return &user, nil
