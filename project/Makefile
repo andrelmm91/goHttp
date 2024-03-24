@@ -5,6 +5,8 @@ AUTH_BINARY=authApp
 LOGGER_BINARY=loggerApp
 MAILER_BINARY=mailerApp
 LISTENER_BINARY=listenerApp
+FRONT_BINARY=frontEndApp
+
 ## howTo use it
 ## in the terminal, type: "make up" or "make up_build"
 
@@ -57,6 +59,12 @@ build_mailer:
 build_listener:
 	@echo Building listener binary...
 	cd ..\listener-service && go env -w GOOS=linux && go env -w GOARCH=amd64 && go env -w CGO_ENABLED=0 && go build -o ${LISTENER_BINARY} .
+	@echo Done!
+
+## build_front_linux: builds the front end binary as a linux executable
+build_front_linux:
+	@echo Building front end linux binary...
+	chdir ..\frontend && set GOOS=linux&& set GOARCH=amd64&& set CGO_ENABLED=0 && go build -o ${FRONT_BINARY} ./cmd/web
 	@echo Done!
 
 ##################################################################################################################

@@ -1,0 +1,2 @@
+docker build -f listener-service.dockerfile -t andrelmm91/go-http:listener-service-v1 .
+docker push andrelmm91/go-http:listener-service-v1
